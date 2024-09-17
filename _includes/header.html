@@ -1,0 +1,22 @@
+{%- comment -%}
+  Include vars:
+  scrolly_nav
+{%- endcomment -%}
+
+<!-- Header -->
+<div id="header">
+  <div class="top">
+    {%- include logo.html -%}
+
+<!--    title: {{ page.title }} <br>-->
+<!--    url: {{ page.url }} <br>-->
+<!--    cat: {{ page.category }} <br>-->
+<!--    cats: {{ page.categories }} <br>-->
+<!--    coll: {{ page.collection }} <br>-->
+<!--    level: {{ page.level }} <br>-->
+    {%- include nav.html parent_items=include.parents section_items=include.scrolly_nav -%}
+  </div>
+  <div class="bottom">
+    {%- include social_icons.html -%}
+  </div>
+</div>

@@ -1,0 +1,30 @@
+---
+layout: default
+---
+{%- assign _parents = site.html_pages | where_exp: "page", "page.title == 'COVID-19'" -%}
+{%- assign _posts = site.posts | sort: 'date' | reverse -%}
+{%- assign _scrolly_nav = _posts -%}
+{%- include header.html parents=_parents scrolly_nav=_scrolly_nav -%}
+<!-- Main -->
+<div id="main">
+	{%- if page.content != "" -%}
+		{%- include section.html title=page.title photo=page.cover-photo photo-alt=page.cover-photo-alt auto-header=page.auto-header content=page.content -%}
+	{%- endif -%}
+	<!-- Posts List -->
+	{%- for _post in _posts -%}
+		{%- capture _title -%}
+			<a href="{{- _post.url | absolute_url -}}">{{- _post.title -}}</a>
+		{%- endcapture -%}
+		{%- capture _subtitle -%}
+			{% if _post.author -%}{{- _post.author }} | {% endif %}
+			{{- _post.date | date_to_long_string -}}
+		{%- endcapture -%}
+      	{%- capture _cover-photo -%}
+			{% if _post.image -%}<img src="{{- _post.image | relative_url -}}" alt="{{- _post.photo-alt -}}">{% endif %}
+		{%- endcapture -%}
+		{%- capture _excerpt -%}<p><a href="{{- _post.url | absolute_url -}}">{{- _post.excerpt -}}</a></p>{%- endcapture -%}
+		{%- capture _link -%}<a href="{{- _post.url | absolute_url -}}">read more</a>{%- endcapture -%}
+		{%- assign _content = _excerpt | prepend: _cover-photo | append: _link -%}
+		{%- include section.html title=_title subtitle=_subtitle content=_content -%}
+	{%- endfor -%}
+</div>

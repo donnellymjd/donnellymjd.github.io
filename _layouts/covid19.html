@@ -1,0 +1,30 @@
+---
+layout: default
+---
+{%- assign _nextlevel = page.level | plus: 1 -%}
+{%- assign _docs = site.covid19 | where_exp:"item", "item.level == _nextlevel" | sort: "order" -%}
+{%- include header.html scrolly_nav=_docs -%}
+<!-- Main -->
+<div id="main">
+	{%- if page.content != "" -%}
+		{%- include section.html title=page.title subtitle=page.subtitle photo=page.cover-photo photo-alt=page.cover-photo-alt auto-header=page.auto-header -%}
+		{{- content -}}
+	{%- endif -%}
+	<!-- Posts List -->
+	{%- for _doc in _docs -%}
+		{%- capture _title -%}
+			<a href="{{- _doc.url | absolute_url -}}">{{- _doc.title -}}</a>
+		{%- endcapture -%}
+		{%- capture _subtitle -%}
+			{% if _doc.author -%}{{- _doc.author }} | {% endif %}
+			{{- _doc.date | date_to_long_string -}}
+		{%- endcapture -%}
+		{%- capture _excerpt -%}<p><a href="{{- _doc.url | absolute_url -}}">{{- _doc.excerpt -}}</a></p>{%- endcapture -%}
+		{%- capture _link -%}<a href="{{- _doc.url | absolute_url -}}">
+			{% if _doc.moretext %}{{ _doc.moretext }}
+			{% else %}more charts and forecasts
+			{% endif %}</a>{%- endcapture -%}
+		{%- assign _content = _excerpt | append: _link -%}
+		{%- include section.html title=_title subtitle=_subtitle content=_content -%}
+	{%- endfor -%}
+</div>
